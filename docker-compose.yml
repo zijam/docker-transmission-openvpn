@@ -1,7 +1,8 @@
 transmission:
-  build: zijam/transmission-openvpn
-  cap-add: NET_ADMIN
-  device:
+  image: zijam/transmission-openvpn
+  cap_add:
+    - NET_ADMIN
+  devices:
     - /dev/net/tun
   restart: always
   ports:
@@ -13,7 +14,7 @@ transmission:
     - /etc/localtime:/etc/localtime:ro
     - /your/storage/path/:/data
   environment:
-    OPENVPN_PROVIDER: PIA
+    OPENVPN_PROVIDER: newshosting
     OPENVPN_USERNAME: username
     OPENVPN_PASSWORD: password
     OPENVPN_OPTS: "--inactive 3600 --ping 10 --ping-exit 60"
