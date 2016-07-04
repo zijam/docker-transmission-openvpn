@@ -1,23 +1,10 @@
+# FORK
+This is a FORK from haugene/docker-transmission-openvpn, with my modification.
+
 # Transmission with WebUI and OpenVPN
 Docker container which runs Transmission torrent client with WebUI while connecting to OpenVPN.
 It bundles certificates and configurations for the following VPN providers:
-* Private Internet Access
-* BTGuard
-* TigerVPN
-* FrootVPN
-* TorGuard
-* NordVPN
 * UsenetServerVPN
-* IPVanish
-* Anonine
-* HideMe
-* PureVPN
-* HideMyAss
-* PrivateVPN
-* IVPN
-* Ivacy
-
-When using PIA as provider it will update Transmission hourly with assigned open port. Please read the instructions below.
 
 ## Run container from Docker registry
 The container is available from the Docker registry and this is the simplest way to get it.
@@ -47,7 +34,7 @@ By default a folder named transmission-home will also be created under /data, th
 ### Required environment options
 | Variable | Function | Example |
 |----------|----------|-------|
-|`OPENVPN_PROVIDER` | Sets the OpenVPN provider to use. | `OPENVPN_PROVIDER=provider`. Supported providers are `PIA`, `BTGUARD`, `TIGER`, `FROOT`, `TORGUARD`, `NORDVPN`, `USENETSERVER`, `IPVANISH`, `ANONINE`, `HIDEME`, `PUREVPN`, `HIDEMYASS`, `PRIVATEVPN`, `IVPN` and `IVACY`|
+|`OPENVPN_PROVIDER` | Sets the OpenVPN provider to use. | `OPENVPN_PROVIDER=provider`. Supported providers are `NEWSHOSTING`|
 |`OPENVPN_USERNAME`|Your OpenVPN username |`OPENVPN_USERNAME=asdf`|
 |`OPENVPN_PASSWORD`|Your OpenVPN password |`OPENVPN_PASSWORD=asdf`|
 
@@ -192,15 +179,15 @@ replacing _foldername_ with any folder you created on your Synology
 
 # Create the necessary file structure for /dev/net/tun
 if ( [ ! -c /dev/net/tun ] ); then
-	if ( [ ! -d /dev/net ] ); then
-		mkdir -m 755 /dev/net
-	fi
-	mknod /dev/net/tun c 10 200
+  if ( [ ! -d /dev/net ] ); then
+    mkdir -m 755 /dev/net
+  fi
+  mknod /dev/net/tun c 10 200
 fi
 
 # Load the tun module if not already loaded
 if ( !(lsmod | grep -q "^tun\s") ); then
-	insmod /lib/modules/tun.ko
+  insmod /lib/modules/tun.ko
 fi
 ```
 - Save the file with [escape] + `:wq!`

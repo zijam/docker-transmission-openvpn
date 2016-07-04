@@ -10,8 +10,8 @@ export TRANSMISSION_BIND_ADDRESS_IPV4=$4
 
 echo "Generating transmission settings.json from env variables"
 # Ensure TRANSMISSION_HOME is created
-mkdir -p ${TRANSMISSION_HOME}
-dockerize -template /etc/transmission/settings.tmpl:${TRANSMISSION_HOME}/settings.json /bin/true
+mkdir -p "${TRANSMISSION_HOME}"
+envsubst < "/etc/transmission/settings.tmpl" > "${TRANSMISSION_HOME}/settings.json"
 
 if [ ! -e "/dev/random" ]; then
   # Avoid "Fatal: no entropy gathering module detected" error
@@ -20,12 +20,12 @@ if [ ! -e "/dev/random" ]; then
 fi
 
 echo "STARTING TRANSMISSION"
-exec /usr/bin/transmission-daemon -g ${TRANSMISSION_HOME} --logfile ${TRANSMISSION_HOME}/transmission.log &
+exec /usr/bin/transmission-daemon -g "${TRANSMISSION_HOME}" --logfile "${TRANSMISSION_HOME}/transmission.log" &
 
 if [ "$OPENVPN_PROVIDER" = "PIA" ]
 then
     echo "STARTING PORT UPDATER"
-    exec /etc/transmission/periodicUpdates.sh $4 &
+    exec /etc/transmission/periodicUpdates.sh "$4" &
 else
     echo "NO PORT UPDATER FOR THIS PROVIDER"
 fi

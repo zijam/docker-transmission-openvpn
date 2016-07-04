@@ -1,6 +1,8 @@
 transmission:
-  image: haugene/transmission-openvpn
-  privileged: true
+  build: zijam/transmission-openvpn
+  cap-add: NET_ADMIN
+  device:
+    - /dev/net/tun
   restart: always
   ports:
     - 9091:9091
