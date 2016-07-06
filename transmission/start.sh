@@ -11,7 +11,10 @@ export TRANSMISSION_BIND_ADDRESS_IPV4=$4
 echo "Generating transmission settings.json from env variables"
 # Ensure TRANSMISSION_HOME is created
 mkdir -p "${TRANSMISSION_HOME}"
-envsubst < "/etc/transmission/settings.tmpl" > "${TRANSMISSION_HOME}/settings.json"
+if [ ! -f "${TRANSMISSION_HOME}/settings.json" ]; then
+  envsubst < "/etc/transmission/settings.tmpl" > "${TRANSMISSION_HOME}/settings.json"
+fi
+
 
 if [ ! -e "/dev/random" ]; then
   # Avoid "Fatal: no entropy gathering module detected" error
