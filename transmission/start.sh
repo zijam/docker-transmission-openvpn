@@ -20,14 +20,6 @@ if [ ! -e "/dev/random" ]; then
 fi
 
 echo "STARTING TRANSMISSION"
-exec /usr/bin/transmission-daemon -g "${TRANSMISSION_HOME}" --logfile "${TRANSMISSION_HOME}/transmission.log" &
-
-if [ "$OPENVPN_PROVIDER" = "PIA" ]
-then
-    echo "STARTING PORT UPDATER"
-    exec /etc/transmission/periodicUpdates.sh "$4" &
-else
-    echo "NO PORT UPDATER FOR THIS PROVIDER"
-fi
+su abc -s /bin/sh --command="exec /usr/bin/transmission-daemon -g \"${TRANSMISSION_HOME}\" --logfile \"${TRANSMISSION_HOME}/transmission.log\" &"
 
 echo "Transmission startup script complete."
